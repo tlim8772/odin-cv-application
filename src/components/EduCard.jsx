@@ -49,7 +49,7 @@ export function EduCard(props) {
         value={endDate}
         disabled={state === 'submitting'}
       />
-      <button onClick={remove}>remove</button>
+      <button disabled={state === 'submitting'} onClick={remove}>remove</button>
     </div>
   )
 }
