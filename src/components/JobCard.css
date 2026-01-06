@@ -6,3 +6,8 @@
     padding: 12px;
     background-color: lightgray;
 }
+
+.job-card > input:not([type="date"]),
+.job-card > textarea {
+    align-self: stretch;
+}
