@@ -15,7 +15,10 @@ export function Job(props) {
   const [state, setState] = useState('editing');
   const [jobArr, setJobArr] = useState([]);
 
-  const ref = useRef(0);
+  const ref = useRef({
+    id: 'job',
+    idx: 0,
+  });
 
   function keySetter(key, idx) {
     return (value) => {
@@ -63,11 +66,17 @@ export function Job(props) {
   }
 
   function dragStart(myIdx) {
-    return () => ref.current = myIdx;
+    return (e) => {
+      e.dataTransfer.setData('id', 'job');
+      ref.current = myIdx;
+    }
   }
 
   function drop(myIdx) {
-    return () => reorder(ref.current, myIdx);
+    return (e) => {
+      if (e.dataTransfer.getData('id') !== 'job') return;
+      reorder(ref.current, myIdx);
+    }
   }
 
 

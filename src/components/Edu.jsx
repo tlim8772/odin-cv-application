@@ -14,7 +14,10 @@ export function Edu(props) {
   const [state, setState] = useState('editing');
   const [eduArr, setEduArr] = useState([]);
 
-  const ref = useRef(0);
+  const ref = useRef({
+    id: 'edu',
+    idx: 0,
+  });
 
   function keySetter(key, idx) {
     return (value) => {
@@ -58,11 +61,17 @@ export function Edu(props) {
   }
 
   function dragStart(myIdx) {
-    return () => ref.current = myIdx;
+    return (e) => {
+      e.dataTransfer.setData('id', 'edu');
+      ref.current = {...ref.current, idx: myIdx};
+    }
   }
 
   function drop(myIdx) {
-    return () => reorder(ref.current, myIdx);
+    return (e) => {
+      if (e.dataTransfer.getData('id') !== 'edu') return;
+      reorder(ref.current.idx, myIdx);
+    }
   }
 
   return (
