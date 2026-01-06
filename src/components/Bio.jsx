@@ -1,11 +1,28 @@
 import { useState } from 'react';
 import './Bio.css';
 
-export function Bio() {
+export const bioObj = {
+  name: '',
+  email: '',
+  hp: '',
+}
+
+export function Bio(props) {
+  const { updateBio } = props
+  
   const [state, setState] = useState('editing')
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [hp, setHp] = useState('');
+
+  function submit() {
+    setState('submitting');
+    updateBio({
+      name,
+      email,
+      hp,
+    })
+  }
 
   return (
     <div className='bio'>
@@ -36,7 +53,7 @@ export function Bio() {
       />
       <div>
         <button onClick={() => setState('editing')}>edit</button>
-        <button onClick={() => setState('submitting')}>submit</button>
+        <button onClick={submit}>submit</button>
       </div>
     </div>
   )

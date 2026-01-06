@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { JobCard } from './JobCard';
 import './Job.css';
 
-const jobObj = {
+export const jobObj = {
   company: '',
   position: '',
   description: '',
@@ -10,7 +10,8 @@ const jobObj = {
   endDate: ''
 };
 
-export function Job() {
+export function Job(props) {
+  const { updateJobArr } = props;
   const [state, setState] = useState('editing');
   const [jobArr, setJobArr] = useState([]);
 
@@ -37,6 +38,7 @@ export function Job() {
 
   function submit() {
     setState('submitting');
+    updateJobArr(jobArr);
   }
 
   return (

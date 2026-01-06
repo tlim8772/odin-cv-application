@@ -2,14 +2,15 @@ import { useState } from 'react';
 import { EduCard } from './EduCard';
 import './Edu.css';
 
-const emptyEdu = {
+export const emptyEdu = {
   schoolName: '',
   title: '',
   startDate: '',
   endDate: ''
 }
 
-export function Edu() {
+export function Edu(props) {
+  const { updateEduArr } = props;
   const [state, setState] = useState('editing');
   const [eduArr, setEduArr] = useState([]);
 
@@ -30,6 +31,11 @@ export function Edu() {
     }
   }
 
+  function submit() {
+    setState('submitting');
+    updateEduArr(eduArr);
+  }
+
   return (
     <div className='edu'>
       <div>Education</div>
@@ -45,9 +51,9 @@ export function Edu() {
         />
       )}
       <div>
-        <button onClick={addEdu}>add</button>
+        <button disabled={state === 'submitting'} onClick={addEdu}>add</button>
         <button onClick={() => setState('editing')}>edit</button>
-        <button onClick={() => setState('submitting')}>submit</button>
+        <button onClick={submit}>submit</button>
       </div>
     </div>
   )
