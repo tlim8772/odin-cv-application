@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { EduCard } from './EduCard';
 import './Edu.css';
 
@@ -13,6 +13,8 @@ export function Edu(props) {
   const { updateEduArr } = props;
   const [state, setState] = useState('editing');
   const [eduArr, setEduArr] = useState([]);
+
+  const ref = useRef(0);
 
   function keySetter(key, idx) {
     return (value) => {
@@ -36,6 +38,33 @@ export function Edu(props) {
     updateEduArr(eduArr);
   }
 
+  function reorder(srcIdx, destIdx) {
+    if (srcIdx === destIdx) return;
+    if (srcIdx < destIdx) {
+      setEduArr([
+          ...eduArr.slice(0, srcIdx), 
+          ...eduArr.slice(srcIdx + 1, destIdx + 1), 
+          eduArr[srcIdx], 
+          ...eduArr.slice(destIdx + 1),
+        ]);
+    } else {
+      setEduArr([
+        ...eduArr.slice(0, destIdx),
+        eduArr[srcIdx],
+        ...eduArr.slice(destIdx, srcIdx),
+        ...eduArr.slice(srcIdx + 1),
+      ])
+    }
+  }
+
+  function dragStart(myIdx) {
+    return () => ref.current = myIdx;
+  }
+
+  function drop(myIdx) {
+    return () => reorder(ref.current, myIdx);
+  }
+
   return (
     <div className='edu'>
       <div>Education</div>
@@ -48,6 +77,8 @@ export function Edu(props) {
           setStartDate={keySetter('startDate', i)}
           setEndDate={keySetter('endDate', i)}
           remove={removeEdu(i)}
+          dragStart={dragStart(i)}
+          drop={drop(i)}
         />
       )}
       <div>

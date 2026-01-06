@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { JobCard } from './JobCard';
 import './Job.css';
 
@@ -14,6 +14,8 @@ export function Job(props) {
   const { updateJobArr } = props;
   const [state, setState] = useState('editing');
   const [jobArr, setJobArr] = useState([]);
+
+  const ref = useRef(0);
 
   function keySetter(key, idx) {
     return (value) => {
@@ -41,6 +43,34 @@ export function Job(props) {
     updateJobArr(jobArr);
   }
 
+  function reorder(srcIdx, destIdx) {
+    if (srcIdx === destIdx) return;
+    if (srcIdx < destIdx) {
+      setJobArr([
+          ...jobArr.slice(0, srcIdx), 
+          ...jobArr.slice(srcIdx + 1, destIdx + 1), 
+          jobArr[srcIdx], 
+          ...jobArr.slice(destIdx + 1),
+        ]);
+    } else {
+      setJobArr([
+        ...jobArr.slice(0, destIdx),
+        jobArr[srcIdx],
+        ...jobArr.slice(destIdx, srcIdx),
+        ...jobArr.slice(srcIdx + 1),
+      ])
+    }
+  }
+
+  function dragStart(myIdx) {
+    return () => ref.current = myIdx;
+  }
+
+  function drop(myIdx) {
+    return () => reorder(ref.current, myIdx);
+  }
+
+
   return (
     <div className="job">
       <div>Experience</div>
@@ -54,6 +84,8 @@ export function Job(props) {
           setStartDate={keySetter('startDate', i)}
           setEndDate={keySetter('endDate', i)}
           remove={removeJob(i)}
+          dragStart={dragStart(i)}
+          drop={drop(i)}
         />
       )}
       <div>

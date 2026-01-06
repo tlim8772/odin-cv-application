@@ -13,11 +13,19 @@ export function JobCard(props) {
     setStartDate,
     endDate,
     setEndDate,
-    remove
+    remove,
+    dragStart,
+    drop,
   } = props;
 
   return (
-    <div className='job-card'>
+    <div 
+      className='job-card'
+      draggable={state === 'editing'}
+      onDragOver={e => e.preventDefault()}
+      onDragStart={dragStart}
+      onDrop={drop}
+    >
       <input 
         type='text'
         value={company}

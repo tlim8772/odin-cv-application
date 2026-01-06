@@ -12,11 +12,19 @@ export function EduCard(props) {
     setStartDate,
     endDate,
     setEndDate,
-    remove
+    remove,
+    dragStart,
+    drop,
   } = props;
 
   return (
-    <div className='edu-card'>
+    <div 
+      className='edu-card' 
+      draggable={state === 'editing'}
+      onDragStart={dragStart}
+      onDrop={drop}
+      onDragOver={e => e.preventDefault()}
+    >
       <input 
         required
         type='text'
