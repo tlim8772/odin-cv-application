@@ -1,0 +1,7 @@
+.main-page {
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: lightgreen;
+  display: grid;
+  grid-template-columns: 1fr 3.5fr;
+}

@@ -1,0 +1,8 @@
+.edu-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    background-color: lightgrey;
+    padding: 12px;
+}
